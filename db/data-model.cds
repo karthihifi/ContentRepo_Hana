@@ -25,9 +25,15 @@ entity Folder : cuid, managed {
                            on category.up_ = $self;
         files        : Composition of many files
                            on files.up_ = $self;
-        imageurl     : String    @Core.IsURL  @Core.MediaType          : 'image/png';
-        // imageType    : String    @Core.IsMediaType;
-// files        : Association to files;
+        imageurl     : String; //  default '' @Core.IsURL;
+        favourites   : Boolean;
+        visitedtimes : Integer default 1;
+        filecount    : Integer;
+        lastvisited  : String;
+}
+
+entity maincategory {
+    maincategory : String
 }
 
 entity category {
@@ -37,18 +43,22 @@ entity category {
 }
 
 entity files {
-    key ID         : UUID;
-        up_        : Association to Folder;
-        file_path  : Composition of many file_path
-                         on file_path.up_ = $self;
-        tags       : Composition of many tags
-                         on tags.up_ = $self;
+    key ID           : UUID;
+        up_          : Association to Folder;
+        file_path    : Composition of many file_path
+                           on file_path.up_ = $self;
+        tags         : Composition of many tag_path
+                           on tags.up_ = $self;
         // file_path  : Association to file_path;
         // tags       : Association to tags;
-        category   : String;
-        comments   : String;
-        lastupdate : Timestamp @cds.on.insert : $now  @cds.on.update : $now;
-        title      : String;
+        category     : String;
+        comments     : String;
+        lastupdate   : Timestamp @cds.on.insert : $now  @cds.on.update : $now;
+        title        : String;
+        imageurl     : String; // default ' '@Core.IsURL;
+        favourites   : Boolean;
+        visitedtimes : Integer default 1;
+        lastvisited  : String;
 }
 
 type Url {
@@ -57,16 +67,18 @@ type Url {
 }
 
 entity file_path {
-    key ID          : UUID;
-        up_         : Association to files;
+    key ID         : UUID;
+        up_        : Association to files;
         // key file_path_id : Integer;
-        description : String;
-        url         : String;
+        title      : String;
+        url        : String;
+        comments   : String;
+        isImageURL : Boolean
 }
 
-entity tags {
-    key ID   : UUID;
-        up_  : Association to files;
+entity tag_path {
+    key ID       : UUID;
+        up_      : Association to files;
         // key tag_id : Integer;
-        tags : String;
+        tag_name : String;
 }

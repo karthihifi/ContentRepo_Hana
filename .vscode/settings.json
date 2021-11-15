@@ -3,6 +3,5 @@
     "**/.gitignore": true,
     "**/.git": true,
     "**/.vscode": true
-},
-"actions": []
+}
 }

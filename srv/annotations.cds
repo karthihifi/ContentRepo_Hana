@@ -17,7 +17,10 @@ annotate service.Folder with @(
             {Value : folder_name},
             {Value : maincategory},
             {Value : email},
-            {Value : lastupdate}
+            {Value : lastupdate},
+            {Value : favourites},
+            {Value : visitedtimes},
+            {Value : lastvisited}
         ]
     }
 );
@@ -44,29 +47,33 @@ annotate service.Folder with @(UI : {
         //  {Value : folder_name},
         {Value : maincategory},
         {Value : email},
-        // {Value : imageurl}
+        {Value : imageurl},
+        {Value : favourites},
     ]},
 });
 
 
 annotate service.Folder with {
     folder_name  @title : 'Folder'  @mandatory;
-    maincategory @title : 'Category'  @mandatory;
-    // @Common     : {
-    //     ValueListWithFixedValues : true,
-    //     ValueList                : {
-    //         // SearchSupported : true,
-    //         CollectionPath : 'VH_categories',
-    //         Parameters     : [{
-    //             $Type             : 'Common.ValueListParameterInOut',
-    //             LocalDataProperty : 'maincategory',
-    //             ValueListProperty : 'Category'
-    //         }]
-    //     }
-    // };
+    maincategory @title : 'Category'  @mandatory 
+    @Common     : {
+        ValueListWithFixedValues : true,
+        ValueList                : {
+            // SearchSupported : true,
+            CollectionPath : 'VH_categories',
+            Parameters     : [{
+                $Type             : 'Common.ValueListParameterInOut',
+                LocalDataProperty : 'maincategory',
+                ValueListProperty : 'maincategory'
+            }]
+        }
+    };
     email        @title : 'Email'  @mandatory  @assert.format : '^([^.@]+)(\.[^.@]+)*@([^.@]+\.)+([^.@]+)$';
     ID           @title : 'ID';
-    imageurl     @title : 'Folder Image'
+    imageurl     @title : 'Folder Image';
+    favourites   @title : 'Favourities';
+    visitedtimes @title : 'Visited Count';
+    lastupdate   @title : 'Last Update'
 }
 
 
@@ -81,6 +88,8 @@ annotate service.files with @(UI : {
         {Value : category, },
         {Value : comments, },
         {Value : title, },
+        {Value : favourites},
+        {Value : visitedtimes},
     ]
 });
 
@@ -120,57 +129,64 @@ annotate service.files with @(UI : {
 });
 
 annotate service.files with {
-    ID       @title : 'ID';
-    category @title : 'Category';
-    comments @title : 'Comments'  @UI.MultiLineText;
-    title    @title : 'Title';
+    ID           @title : 'ID';
+    category     @title : 'Category';
+    comments     @title : 'Comments'  @UI.MultiLineText;
+    title        @title : 'Title';
+    favourites   @title : 'Favourities';
+    visitedtimes @title : 'Visited Count';
+    lastupdate   @title : 'Last Update'
 }
 
 annotate service.file_path with @(UI : {
     Identification : [{
-        Value : description,
+        Value : title,
         Label : 'File Path'
     }],
     LineItem       : [
         // {Value : up__ID},
-        {Value : description, },
+        {Value : title, },
         {
             Value : url,
             Url   : url,
             $Type : 'UI.DataFieldWithUrl'
-        }
+        },
+        {Value : comments, },
+        {Value : isImageURL, },
     ]
 });
 
 annotate service.file_path with @(UI : {HeaderInfo : {
     TypeName       : 'Url',
     TypeNamePlural : 'Url Details',
-    Title          : {Value : description},
+    Title          : {Value : title},
     Description    : {Value : url}
 }});
 
 annotate service.file_path with {
-    desc @title : 'Description';
-    url  @title : 'Url';
+    title      @title : 'Title';
+    url        @title : 'Url';
+    comments   @title : 'Comments';
+    isImageURL @title : 'Image Link'
 }
 
-annotate service.tags with @(UI : {
+annotate service.tag_path with @(UI : {
     Identification : [{
-        Value : tags,
+        Value : tag_name,
         Label : 'Tags Attached'
     }],
-    LineItem       : [{Value : tags, }]
+    LineItem       : [{Value : tag_name, }]
 });
 
-annotate service.tags with @(UI : {HeaderInfo : {
+annotate service.tag_path with @(UI : {HeaderInfo : {
     TypeName       : 'Tags',
     TypeNamePlural : 'Tags Details',
-    Title          : {Value : tags},
+    Title          : {Value : tag_name},
 // Description    : {Value : url}
 }});
 
-annotate service.tags with {
-    tags @title : 'Tags';
+annotate service.tag_path with {
+    tag_name @title : 'Tags';
 // url  @title : 'Url';
 }
 

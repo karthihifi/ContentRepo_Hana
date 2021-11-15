@@ -3,14 +3,15 @@ using my.contentmanag as my from '../db/data-model';
 service ContentManagService {
     // @readonly entity Books as projection on my.Books;
 
-    entity Folder  as projection on my.Folder;
+    entity Folder        as projection on my.Folder;
+    entity VH_categories as projection on my.maincategory;
 
-    // entity VH_categories as
-    //     select from my.Folder as a {
-    //         a.maincategory as Category
-    //     }
-    //     group by
-    //         maincategory
+// entity VH_categories as
+//     select from my.Folder as a {
+//         a.maincategory as Category
+//     }
+//     group by
+//         maincategory
 // entity Files  as projection on my.files;
 // entity Category as projection on my.category;
 //     entity Category  as
